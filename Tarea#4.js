@@ -1,75 +1,134 @@
 //Variables utiles 
 //Precio base de la cotización, en quetzales, lo puede cambiar
+
 var precio_base = 2000
+
 
 //Valores de los recargos 
 var edad_18 = 0.1 // 10%
 var edad_25 = 0.2 // 20%
 var edad_50 = 0.3 // 30%
 
+//Recargo de pareja
 var casado_18 = 0.1 // 10%
 var casado_25 = 0.2 // 20%
 var casado_50 = 0.3 // 30%
 
 var hijos_recargo = 0.2 // 20%
-
+//Se recarga el 20% por cada hijo
 
 //Recargo
-var recargo = 0
-var recargo_total = 0
+var recargo =0
+var recargo_total = 0  
 
-//Precio final 
-var precio_final = 0
-
+// Precio final
+var precio_final = 0 //Igual a recargo total + precio base
+var cotizar = prompt("¿Desea hacer una cotización?") 
+while(("SI") == cotizar.toUpperCase())
+{
+//Al responder si, se ejecuta
 //Mensajes de alerta para ingresar datos 
-var nombre = prompt("Ingrese su nombre, por favor")
-var edad = prompt("¿Cuantos años tiene? Ingrese solamente números ")
-
-var casado = prompt("¿Está casado actualmente?")
-//Comprobamos la edad del cónyuge, solamente si se está casado/a
-var edad_conyuge
-if("SI" == casado.toUpperCase()){
-  edad_conyuge = prompt("¿Que edad tiene su esposo/a?", "si/no")
-}
-//convirtiendo las edades ingresadas a números 
+var nombre = prompt("Ingrese un nombre y apellido")
+var edad = prompt("Ingrese su edad actual en números (20,25,30, etc)");
 var edad_numero = parseInt(edad)
-var edad_conyuge_numero = 0
-//convirtiendo la edad del cónyuge si se esta casado/a
-if("SI" == casado.toUpperCase()){
-  edad_conyuge_numero = parseInt(edad_conyuge)
+//Convierte las edades a números
+if (edad<18)
+{
+alert("Debe ser mayor de 18 años")
 }
-
-var hijos = prompt("¿Tiene hijos o hijas?")
-//Comprobamos la cantidad de hijos solamente si los tienen
-var cantidad_hijos
-/**
- * 1. convierta la cantidad de hijos a numero
- */
-
-//Aquí debe calcular el recargo total basado en las respuestas ingresadas
-
-//Aquí es donde debe de calcular los recargos y el valor final
-//Ejemplo (Debe completar los condicionales): Recargo por edad del asegurado 
-if(edad_numero>=18 && edad_numero<25){
-  //Calculamos el recargo en base a la edad 
-  recargo = precio_base * edad_18
-  //Sumamos todos los recargos que hemos obtenido
+else if(edad>18 && edad<24)
+  //Debe ser mayor de edad; si se cumple calcular recargo
+  //Debe ser menor de 25 años 
+{
+  //Calcular recargo en base a la edad
+  recargo = precio_base * edad_18 
+  // edad*0.1 = 10%
+  //Sumar recargos de edad
   recargo_total = recargo_total + recargo
 }
-//aqui puede colocar un else if() con el siguiente rango
+else if(edad>25 || edad<49)
+//Rango de edad entre 25 a 49 años
+{
+//Calcular recargo en base a la edad
+ recargo = precio_base * edad_25
+// edad*0.2 = 20%
+//sumar recargos obtenidos
+recargo_total = recargo_total + recargo
+}
+else (edad>=50)
+//Personas mayores de 50 años
+{
+recargo = precio_base * edad_50
+//edad*0.3 = 30%
+//sumar recargos calculados
+recargo_total= recargo_total + recargo
+}
+//Si el asegurado tien empleo entonces:
+var empleo = prompt("¿Tiene usted empleo?")
 
-/** 
- * 2. Recargo por la edad del conyuge
- */
+if( "SI" == empleo.toUpperCase())
+{
+  var salario = prompt("¿De cuánto es su salario devengado?") 
+  recargo = salario * 0.05
+//sumar recargos
+recargo_total = recargo_total + recargo
+}
+//Si el asegurado tiene propiedades
+var propiedad = prompt("¿Tiene usted propiedades")
 
-/**
- * 3. Recargo por la cantidad de hijos 
- */ 
+if("SI" == propiedad.toUpperCase())
+{
+var propiedad_numero=prompt("¿Cuántas propeidades posee?")
+calcular_recargo=(propiedad_numero*35)
+recargo = (precio_base * calcular_recargo)
+recargo_total=recargo_total + recargo
+}
+var estado_civil = prompt("¿Está casado/a actualmente?")
+if("SI" == estado_civil.toUpperCase())
+{
+var edad_conyuge = prompt("¿Qué edad tiene su conyuge?")
 
-
-precio_final = precio_base + recargo_total
-//Resultado
-alert ("Para el asegurado "+nombre)
-alert ("El recargo total sera de: "+recargo_total)
-alert ("El precio sera de: "+precio_final)
-
+if(edad_conyuge>=18 && edad_conyuge<=24)
+{
+  //Cacular el recargo en base a la edad
+  recargo = precio_base * casado_18// *0.1=10%
+  //Sumar recargos
+  recargo_total = recargo_total + recargo
+}
+else if(edad_conyuge>=25 && edad_conyuge<=49)
+{
+//Cacular el recargo en base a la edad
+  recargo = precio_base * casado_25// *0.2=20%
+  //Sumar recargos
+  recargo_total = recargo_total + recargo
+}
+else (edad_conyuge>50)
+{
+  //Cacular el recargo en base a la edad
+  recargo = precio_base * casado_50// *0.2=30%
+  //Sumar recargos
+  recargo_total = recargo_total + recargo
+}
+}
+//Calculo de recargo por hijos
+var hijos = prompt("¿Tiene usted hijos?")
+if ("SI"== hijos.toUpperCase())
+{
+  var cantidad_hijos = prompt("¿Cuántos hijos tiene?")
+  if(cantidad_hijos>=1 && cantidad_hijos>2)
+{
+  //Cacular el recargo en base a la cantidad de hijos
+  recargo = precio_base * 0.2 //20%
+  //Sumar recargos
+  recargo_total = recargo_total + recargo
+}
+}
+precio_final = recargo_total + precio_base
+alert ("Para el asegurado" + nombre)
+alert("el recargo total es" + recargo_total)
+alert("el precio final es de:" + precio_final)
+}
+{
+  cotizar= prompt("¿Desea hacer otra cotización?")
+}
+  alert("Diana Garcia_23004864")
